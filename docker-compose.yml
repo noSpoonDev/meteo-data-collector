@@ -1,0 +1,45 @@
+version: '3.8'
+
+volumes:
+  postgres_data:
+
+networks:
+  meteo-network:
+
+services:
+
+  # ===============================
+  # Database (PostgreSQL)
+  # ===============================
+  meteo-postgres:
+    container_name: meteo-postgres
+    image: postgres:15
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: your_db_name
+      POSTGRES_USER: your_db_user
+      POSTGRES_PASSWORD: your_db_password
+    ports:
+      - "5433:5432"
+    healthcheck:
+          test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+          interval: 5s
+          retries: 5
+    networks:
+      - meteo-network
+
+  # ===============================
+  # Console App (Dotnet)
+  # ===============================
+  meteo-app:
+    container_name: meteo-app
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    depends_on:
+      meteo-postgres:
+        condition: service_healthy
+    networks:
+      - meteo-network

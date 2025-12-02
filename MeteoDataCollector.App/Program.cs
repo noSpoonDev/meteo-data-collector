@@ -10,7 +10,7 @@ namespace MeteoDataCollector.App;
 
 class Program
 {
-    static void Main(string[] args)
+    static async Task Main(string[] args)
     {
         using var host = Host.CreateDefaultBuilder(args)
             .ConfigureServices((context, services) =>
@@ -22,5 +22,9 @@ class Program
                 services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
             })
             .Build();
+
+        using var migrationScope = host.Services.CreateScope();
+        var dbContext = migrationScope.ServiceProvider.GetRequiredService<MeteoDataCollectorDbContext>();
+        await dbContext.Database.MigrateAsync();
     }
 }
