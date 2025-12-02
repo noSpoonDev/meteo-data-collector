@@ -1,4 +1,4 @@
-namespace MeteoDataCollector.App.Settings;
+namespace MeteoDataCollector.Core.Settings;
 
 public class MeteoDataSourceSettings
 {

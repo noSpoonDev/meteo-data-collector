@@ -1,6 +1,6 @@
-﻿using MeteoDataCollector.App.Settings;
-using MeteoDataCollector.Core.Contracts.Repositories;
+﻿using MeteoDataCollector.Core.Contracts.Repositories;
 using MeteoDataCollector.Core.Services;
+using MeteoDataCollector.Core.Settings;
 using MeteoDataCollector.Infrastructure.Contexts;
 using MeteoDataCollector.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
