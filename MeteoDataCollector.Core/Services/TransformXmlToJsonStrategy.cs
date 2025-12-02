@@ -1,6 +1,7 @@
 using System.Xml;
-using MeteoDataCollector.Core.Services;
 using Newtonsoft.Json;
+
+namespace MeteoDataCollector.Core.Services;
 
 public class TransformXmlToJsonStrategy : ITransformToJsonStrategy
 {

@@ -1,4 +1,4 @@
-using MeteoDataCollector.App.Settings;
+﻿using MeteoDataCollector.App.Settings;
 using MeteoDataCollector.Core.Contracts.Repositories;
 using MeteoDataCollector.Core.Services;
 using MeteoDataCollector.Infrastructure.Contexts;
@@ -42,14 +42,18 @@ class Program
                 services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
                 services.AddScoped<ITransformToJsonStrategy, TransformXmlToJsonStrategy>();
                 services.AddScoped<IMeteoDataProcessingService, MeteoDataProcessingService>();
+                
+                services.AddHostedService<SchedulerService>();
             })
             .Build();
 
         #region Apply migrations
-        
+
         using var migrationScope = host.Services.CreateScope();
         var dbContext = migrationScope.ServiceProvider.GetRequiredService<MeteoDataCollectorDbContext>();
         await dbContext.Database.MigrateAsync();
+
+        await host.RunAsync();
 
         #endregion
     }

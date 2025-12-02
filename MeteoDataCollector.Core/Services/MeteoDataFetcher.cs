@@ -1,6 +1,6 @@
-using Microsoft.Extensions.Logging;
-
 namespace MeteoDataCollector.Core.Services;
+
+using Microsoft.Extensions.Logging;
 
 public class MeteoDataFetcher : IMeteoDataFetcher
 {
@@ -26,15 +26,21 @@ public class MeteoDataFetcher : IMeteoDataFetcher
             _logger.LogError(
                 "Failed to fetch meteo data. HTTP status code: {StatusCode} ({ReasonPhrase})",
                 (int)response.StatusCode, response.ReasonPhrase);
-            return null;
         }
         catch (TaskCanceledException ex) when (!cancellationToken.IsCancellationRequested)
         {
-            _logger.LogError(
+            _logger.LogError(ex,
                 "Request to meteo station timed out after {Timeout} seconds",
                 _httpClient.Timeout.TotalSeconds
             );
-            return null;
         }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex,
+                "Request to meteo station failed: {Message}", ex.Message
+            );
+        }
+
+        return null;
     }
 }
