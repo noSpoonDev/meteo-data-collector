@@ -12,4 +12,6 @@ public class MeteoDataRecord
     public DateTime CollectedAt { get; set; } = DateTime.UtcNow;
 
     public string? JsonData { get; set; }
+    
+    public bool IsStationOnline { get; set; }
 }
