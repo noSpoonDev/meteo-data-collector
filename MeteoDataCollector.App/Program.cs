@@ -1,4 +1,4 @@
-﻿using MeteoDataCollector.App.Settings;
+using MeteoDataCollector.App.Settings;
 using MeteoDataCollector.Core.Contracts.Repositories;
 using MeteoDataCollector.Core.Services;
 using MeteoDataCollector.Infrastructure.Contexts;
@@ -40,6 +40,8 @@ class Program
                 });
 
                 services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
+                services.AddScoped<ITransformToJsonStrategy, TransformXmlToJsonStrategy>();
+                services.AddScoped<IMeteoDataProcessingService, MeteoDataProcessingService>();
             })
             .Build();
 
