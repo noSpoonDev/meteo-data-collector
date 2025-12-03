@@ -31,14 +31,11 @@ class Program
                     options.UseNpgsql(configuration.GetConnectionString("DBConnection")));
                 
                 services.Configure<MeteoDataSourceSettings>(configuration.GetSection("MeteoDataSourceSettings"));
-                services.AddHttpClient<IMeteoDataFetcher, MeteoDataFetcher>((sp, client) =>
-                {
-                    var settings = sp.GetRequiredService<IOptions<MeteoDataSourceSettings>>().Value;
-                    client.BaseAddress = new Uri(settings.Url);
-                    client.Timeout = TimeSpan.FromSeconds(settings.TimeoutSeconds);
-                    client.DefaultRequestHeaders.Add("Accept", settings.AcceptHeader);
-                });
+                
+                // for IHttpClientFactory
+                services.AddHttpClient();
 
+                services.AddScoped<IMeteoDataFetcher, MeteoDataFetcher>();
                 services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
                 services.AddScoped<ITransformToJsonStrategy, TransformXmlToJsonStrategy>();
                 services.AddScoped<IMeteoDataProcessingService, MeteoDataProcessingService>();

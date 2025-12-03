@@ -1,5 +1,7 @@
+using MeteoDataCollector.Core.Settings;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace MeteoDataCollector.Core.Services;
 
@@ -7,11 +9,14 @@ public class SchedulerService : BackgroundService
 {
     private readonly IMeteoDataProcessingService _processingService;
     private readonly ILogger<SchedulerService> _logger;
+    private readonly IOptions<MeteoDataSourceSettings> _settings;
 
-    public SchedulerService(IMeteoDataProcessingService processingService, ILogger<SchedulerService> logger)
+    public SchedulerService(IMeteoDataProcessingService processingService, ILogger<SchedulerService> logger,
+        IOptions<MeteoDataSourceSettings> settings)
     {
         _processingService = processingService;
         _logger = logger;
+        _settings = settings;
     }
 
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
@@ -31,7 +36,7 @@ public class SchedulerService : BackgroundService
 
             try
             {
-                await Task.Delay(TimeSpan.FromMinutes(60), cancellationToken);
+                await Task.Delay(TimeSpan.FromMinutes(_settings.Value.FetchFrequencyMinutes), cancellationToken);
             }
             catch (TaskCanceledException)
             {
