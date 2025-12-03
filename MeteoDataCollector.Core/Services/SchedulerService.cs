@@ -1,4 +1,5 @@
 using MeteoDataCollector.Core.Settings;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -7,14 +8,14 @@ namespace MeteoDataCollector.Core.Services;
 
 public class SchedulerService : BackgroundService
 {
-    private readonly IMeteoDataProcessingService _processingService;
+    private readonly IServiceProvider _serviceProvider;
     private readonly ILogger<SchedulerService> _logger;
     private readonly IOptions<MeteoDataSourceSettings> _settings;
 
-    public SchedulerService(IMeteoDataProcessingService processingService, ILogger<SchedulerService> logger,
+    public SchedulerService(IServiceProvider serviceProvider, ILogger<SchedulerService> logger,
         IOptions<MeteoDataSourceSettings> settings)
     {
-        _processingService = processingService;
+        _serviceProvider = serviceProvider;
         _logger = logger;
         _settings = settings;
     }
@@ -27,7 +28,10 @@ public class SchedulerService : BackgroundService
         {
             try
             {
-                await _processingService.Process(cancellationToken);
+                using var scope = _serviceProvider.CreateScope();
+                var processingService = scope.ServiceProvider
+                    .GetRequiredService<IMeteoDataProcessingService>();
+                await processingService.Process(cancellationToken);
             }
             catch (Exception ex)
             {

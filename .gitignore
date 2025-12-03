@@ -34,3 +34,11 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 fabric.properties
+
+# Ignore environment variable files
+.env
+!.env.example
+
+# Ignore environment specific settings
+appsettings.*.json
+!appsettings.*.json.example
