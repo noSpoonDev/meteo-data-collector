@@ -41,5 +41,8 @@ services:
     depends_on:
       meteo-postgres:
         condition: service_healthy
+    environment:
+      DOTNET_ENVIRONMENT: ${DOTNET_ENVIRONMENT}
+      ConnectionStrings__DBConnection: "User ID=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};Host=meteo-postgres;Port=5432;Database=${POSTGRES_DB};Include Error Detail=true;"
     networks:
       - meteo-network
