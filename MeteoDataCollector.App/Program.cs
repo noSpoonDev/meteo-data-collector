@@ -35,7 +35,7 @@ class Program
                 services.AddHttpClient();
 
                 services.AddScoped<IMeteoDataFetcher, MeteoDataFetcher>();
-                services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
+                services.AddScoped<IMeteoDataRecordRepository, MeteoDataRecordRepository>();
                 services.AddScoped<ITransformToJsonStrategy, TransformXmlToJsonStrategy>();
                 services.AddScoped<IMeteoDataProcessingService, MeteoDataProcessingService>();
                 

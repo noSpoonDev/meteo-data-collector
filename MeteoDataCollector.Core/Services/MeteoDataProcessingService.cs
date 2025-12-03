@@ -7,12 +7,12 @@ public class MeteoDataProcessingService : IMeteoDataProcessingService
 {
     private readonly IMeteoDataFetcher _fetcher;
     private readonly ITransformToJsonStrategy _transformer;
-    private readonly IRepositoryWrapper _repository;
+    private readonly IMeteoDataRecordRepository _repository;
 
     public MeteoDataProcessingService(
         IMeteoDataFetcher fetcher,
         ITransformToJsonStrategy transformer,
-        IRepositoryWrapper repository)
+        IMeteoDataRecordRepository repository)
     {
         _fetcher = fetcher;
         _transformer = transformer;
@@ -32,7 +32,7 @@ public class MeteoDataProcessingService : IMeteoDataProcessingService
             IsStationOnline = data != null,
             JsonData = data
         };
-        await _repository.MeteoDataRecord.Create(record);
+        await _repository.Create(record);
         await _repository.SaveAsync();
     }
 }

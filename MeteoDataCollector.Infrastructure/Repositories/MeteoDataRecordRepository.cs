@@ -17,4 +17,9 @@ public class MeteoDataRecordRepository : IMeteoDataRecordRepository
     {
         await _dbContext.Set<MeteoDataRecord>().AddAsync(record);
     }
+    
+    public async Task SaveAsync()
+    {
+        await _dbContext.SaveChangesAsync();
+    }
 }
