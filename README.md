@@ -13,6 +13,10 @@ incorporates structured logging.
 The easiest way to run it is with Docker, either as a full environment including the database (
 see `docker-compose.yml`), or as a container with only the application.
 
-Ensure Docker is installed on your machine, then in the folder containing `docker-compose.yml`, run:
+- Ensure Docker is installed on your machine.
+
+- Create a .env file based on the example (see `.env.example`) in the solution folder
+
+- In the folder containing `docker-compose.yml`, run:
 
 `docker-compose up --build`
