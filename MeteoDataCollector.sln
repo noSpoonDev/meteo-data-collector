@@ -8,6 +8,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeteoDataCollector.Infrastr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "code", "code", "{3F23D4C4-A485-47F7-A3D2-EF8E74B823C1}"
     ProjectSection(SolutionItems) = preProject
+        README.md = README.md
         Dockerfile = Dockerfile
  		docker-compose.yml = docker-compose.yml
  	EndProjectSection
